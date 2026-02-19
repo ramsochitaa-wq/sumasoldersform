@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fomu ya Maombi - SUMA SOLDIERS GROUP KIGOMA (SSGK)</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; max-width: 800px; margin: auto; }
+        h1, h2, h3 { text-align: center; }
+        label { display: block; margin: 10px 0 5px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        canvas { border: 1px solid #000; background: #f9f9f9; width: 100%; max-width: 400px; height: 150px; margin: 10px 0; cursor: crosshair; }
+        button { padding: 10px 20px; margin: 5px 0; }
+        #submit { background: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px; }
+        #submit:hover { background: #45a049; }
+        ul { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>SUMA SOLDIERS GROUP KIGOMA (SSGK)</h1>
+<h2>FOMU YA MAOMBI YA KUJIUNGA NA KIKUNDI</h2>
+
+https://formspree.io/f/mzdavldo
+
+    <h3>A. TAARIFA ZA MWOMBAJI</h3>
+    <label>Jina Kamili (Majina Matatu):</label>
+    <input type="text" name="jina_kamili" required>
+
+    <label>Namba ya Simu ya Mwombaji:</label>
+    <input type="tel" name="simu_mwombaji" required>
+
+    <label>Namba ya NIDA ya Mwombaji:</label>
+    <input type="text" name="nida_mwombaji" required>
+
+    <label>Namba ya Kitambulisho cha SUMA JKT GUARD (SG):</label>
+    <input type="text" name="sg_number" required>
+
+    <label>Tarehe ya Kuzaliwa (Siku/Mwezi/Mwaka):</label>
+    <input type="date" name="tarehe_kuzaliwa" required>
+
+    <h3>B. TAARIFA ZA ACCOUNT YA KIKUNDI (VODACOM)</h3>
+    <label>Namba ya Simu ya Account (Vodacom):</label>
+    <input type="tel" name="simu_account" required>
+
+    <label>Namba ya NIDA Iliyosajili Laini Hiyo:</label>
+    <input type="text" name="nida_account" required>
+
+    <label>Majina Matatu Yaliyosajili Laini ya Simu:</label>
+    <input type="text" name="majina_account" required>
+
+    <p><strong>Mtandao wa Account:</strong> Vodacom</p>
+
+    <h3>C. TAMKO LA MWOMBAJI</h3>
+    <p>Mimi niliyetajwa hapo juu nathibitisha kuwa taarifa nilizotoa ni sahihi na za kweli kwa uelewa wangu wote, na niko tayari kufuata katiba, kanuni na taratibu za SUMA SOLDIERS GROUP KIGOMA (SSGK).</p>
+
+    <label>Tarehe ya Kujaza Fomu:</label>
+    <input type="date" name="tarehe_fomu" required>
+
+    <label>Saini yako (chora hapa kwa mouse au finger):</label>
+    <canvas id="signatureCanvas"></canvas><br>
+    <button type="button" onclick="clearSignature()">Futa Saini</button>
+
+    <!-- Saini itahifadhiwa kama base64 na kutumwa -->
+    <input type="hidden" name="saini" id="signatureData">
+
+    <h3>E. KANUNI NA MASHARTI</h3>
+    <ul>
+        <li>Mwanachama atazingatia nidhamu, utii na mshikamano wa kikundi.</li>
+        <li>Account ya kikundi itatumika kwa shughuli halali pekee.</li>
+        <li>Siri za kikundi zitalindwa wakati wote.</li>
+        <li>Mwanachama atawajibika kwa maamuzi na hatua za kinidhamu endapo atakiuka kanuni.</li>
+        <li>Uanachama unaweza kusitishwa au kufutwa kwa mujibu wa katiba ya kikundi.</li>
+    </ul>
+    <label>
+        <input type="checkbox" name="nakubali" required> Nakubali kanuni na masharti yote.
+    </label>
+
+    <h3>Mawasiliano</h3>
+    <p>Email: ramsochitaa@gmail.com</p>
+    <p>Simu: 0796003935</p>
+
+    <button type="submit" id="submit">TUMA MAOMBI</button>
+</form>
+
+<script>
+    const canvas = document.getElementById('signatureCanvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    canvas.width = canvas.offsetWidth;
+    canvas.height = 150;
+
+    function startDrawing(e) {
+        drawing = true;
+        draw(e);
+    }
+
+    function stopDrawing() {
+        drawing = false;
+        ctx.beginPath();
+    }
+
+    function draw(e) {
+        if (!drawing) return;
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#000';
+
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.clientX || e.touches[0].clientX) - rect.left;
+        const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+    }
+
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+
+    // Touch support
+    canvas.addEventListener('touchstart', startDrawing);
+    canvas.addEventListener('touchmove', draw);
+    canvas.addEventListener('touchend', stopDrawing);
+
+    function clearSignature() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        document.getElementById('signatureData').value = '';
+    }
+
+    // Kabla ya kutuma, hifadhi saini kama base64
+    document.getElementById('applicationForm').addEventListener('submit', (e) => {
+        const dataURL = canvas.toDataURL('image/png');
+        document.getElementById('signatureData').value = dataURL;
+    });
+</script>
+
+</body>
+</html>
